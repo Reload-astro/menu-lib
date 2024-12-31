@@ -15,11 +15,11 @@ local InterfaceBuild = '9NBD'
 local Release = "Build 1.65"
 local MenuFolder = "Menu"
 local ConfigurationFolder = MenuFolder.."/Configurations"
-local ConfigurationExtension = ".rfld"
+local ConfigurationExtension = ".cfg"
 local settingsTable = {
 	General = {
 		-- if needs be in order just make getSetting(name)
-		MenuOpen = {Type = 'bind', Value = 'K', Name = 'Menu Keybind'},
+		MenuOpen = {Type = 'bind', Value = 'RSHIFT', Name = 'Menu Keybind'},
 	},
 }
 
