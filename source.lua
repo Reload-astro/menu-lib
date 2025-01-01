@@ -155,7 +155,7 @@ function init()
 
     function library:LoadConfig(file)
         local str = readfile(gameConfigFolder .. "/" .. file .. ".cfg")
-        local tbl = loadstring(str)()
+        local tbl = loadstring(crypt.base64decode(str))()
 
         for flag, value in next, tbl.toggles do
             flags.toggles[flag](value)
@@ -256,8 +256,7 @@ function init()
 
         configstr = (count > 0 and configstr:sub(1, -2) or configstr) .. "}}"
 
-        writefile(gameConfigFolder .. "/" .. name .. ".cfg",
-                  "return " .. configstr)
+        writefile(gameConfigFolder .. "/" .. name .. ".cfg", crypt.base64encode("return " .. configstr))
     end
 
     function library:Load(opts)
