@@ -139,6 +139,8 @@ function init()
         end
     end)
 
+    if syn and syn.protect_gui then syn.protect_gui(gui) end
+
     gui.Parent = coreGui
 
     local flags = {
@@ -151,42 +153,112 @@ function init()
         colorpickers = {}
     }
 
-    function library:LoadConfig(filename)
-        local filepath = gameConfigFolder .. "/" .. filename .. ".cfg"
-        if not isfile(filepath) then return end
-    
-        local success, result = pcall(function()
-            return loadstring(readfile(filepath))()
-        end)
-    
-        if success and type(result) == "table" then
-            for category, data in pairs(result) do
-                if flags[category] then
-                    for flag, value in pairs(data) do
-                        if flags[category][flag] ~= nil then
-                            flags[category][flag](value)
-                        end
-                    end
-                end
-            end
-        else
-            warn("Failed to load config: " .. tostring(result))
+    function library:LoadConfig(file)
+        local str = readfile(gameConfigFolder .. "/" .. file .. ".cfg")
+        local tbl = loadstring(str)()
+
+        for flag, value in next, tbl.toggles do
+            flags.toggles[flag](value)
+        end
+
+        for flag, value in next, tbl.boxes do flags.boxes[flag](value) end
+
+        for flag, value in next, tbl.sliders do
+            flags.sliders[flag](value)
+        end
+
+        for flag, value in next, tbl.dropdowns do
+            flags.dropdowns[flag](value)
+        end
+
+        for flag, value in next, tbl.multidropdowns do
+            flags.multidropdowns[flag](value)
+        end
+
+        for flag, value in next, tbl.keybinds do
+            flags.keybinds[flag](value)
+        end
+
+        for flag, value in next, tbl.colorpickers do
+            flags.colorpickers[flag](value)
         end
     end
-    
-    function library:SaveConfig(filename)
-        local filepath = gameConfigFolder .. "/" .. filename .. ".cfg"
-        local success, result = pcall(function()
-            return "return " .. game:GetService("HttpService"):JSONEncode(flags)
-        end)
-    
-        if success then
-            writefile(filepath, result)
-        else
-            warn("Failed to save config: " .. tostring(result))
+
+    function library:SaveConfig(name)
+        local configstr = "{toggles={"
+        local count = 0
+
+        for flag, _ in next, flags.toggles do
+            count = count + 1
+            configstr = configstr .. "['" .. flag .. "']=" ..
+                            tostring(library.flags[flag]) .. ","
         end
+
+        configstr = (count > 0 and configstr:sub(1, -2) or configstr) ..
+                        "},boxes={"
+
+        count = 0
+        for flag, _ in next, flags.boxes do
+            count = count + 1
+            configstr = configstr .. "['" .. flag .. "']='" ..
+                            tostring(library.flags[flag]) .. "',"
+        end
+
+        configstr = (count > 0 and configstr:sub(1, -2) or configstr) ..
+                        "},sliders={"
+
+        count = 0
+        for flag, _ in next, flags.sliders do
+            count = count + 1
+            configstr = configstr .. "['" .. flag .. "']=" ..
+                            tostring(library.flags[flag]) .. ","
+        end
+
+        configstr = (count > 0 and configstr:sub(1, -2) or configstr) ..
+                        "},dropdowns={"
+
+        count = 0
+        for flag, _ in next, flags.dropdowns do
+            count = count + 1
+            configstr = configstr .. "['" .. flag .. "']='" ..
+                            tostring(library.flags[flag]) .. "',"
+        end
+
+        configstr = (count > 0 and configstr:sub(1, -2) or configstr) ..
+                        "},multidropdowns={"
+
+        count = 0
+        for flag, _ in next, flags.multidropdowns do
+            count = count + 1
+            configstr = configstr .. "['" .. flag .. "']={'" ..
+                            table.concat(library.flags[flag], "','") .. "'},"
+        end
+
+        configstr = (count > 0 and configstr:sub(1, -2) or configstr) ..
+                        "},keybinds={"
+
+        count = 0
+        for flag, _ in next, flags.keybinds do
+            count = count + 1
+            configstr = configstr .. "['" .. flag .. "']=" ..
+                            tostring(library.flags[flag]) .. ","
+        end
+
+        configstr = (count > 0 and configstr:sub(1, -2) or configstr) ..
+                        "},colorpickers={"
+
+        count = 0
+        for flag, _ in next, flags.colorpickers do
+            count = count + 1
+            configstr = configstr .. "['" .. flag .. "']=Color3.new(" ..
+                            tostring(library.flags[flag]) .. "),"
+        end
+
+        configstr = (count > 0 and configstr:sub(1, -2) or configstr) .. "}}"
+
+        writefile(gameConfigFolder .. "/" .. name .. ".cfg",
+                  "return " .. configstr)
     end
-    
 
     function library:Load(opts)
         local options = utility.table(opts)
