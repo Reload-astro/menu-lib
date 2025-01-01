@@ -275,7 +275,7 @@ function init()
             Size = UDim2.new(0, sizeX, 0, 26),
             Position = utility.get_center(sizeX, sizeY),
             BorderSizePixel = 0,
-            BackgroundColor3 = library.color,
+            BackgroundColor3 = Color3.fromRGB(22, 22, 22),
             Parent = gui
         })
 
@@ -316,7 +316,7 @@ function init()
             Size = UDim2.new(1, 0, 0, 26),
             BorderColor3 = Color3.fromRGB(20, 20, 20),
             Position = UDim2.new(0, 0, 0, 26),
-            BackgroundColor3 = library.color,
+            BackgroundColor3 = Color3.fromRGB(26, 26, 26),
             Parent = main
         })
 
