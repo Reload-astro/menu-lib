@@ -131,6 +131,7 @@ function init()
     end
 
     local gui = utility.create("ScreenGui")
+    local wmgui = utility.create("ScreenGui")
 
     inputService.InputBegan:Connect(function(input)
         if input.KeyCode == library.keybind then
@@ -265,7 +266,7 @@ function init()
             Position = UDim2.new(0, 10, 0, 10),
             BackgroundColor3 = Color3.fromRGB(20, 20, 20),
             BorderSizePixel = 0,
-            Parent = gui
+            Parent = wmgui
         })
 
         local textLabel = utility.create("TextLabel", {
