@@ -12,7 +12,7 @@ function init()
 
         local obj = Instance.new(class)
 
-        local forcedProperties = {AutoButtonColor = false}
+        local forcedProperties = {AutoButtonColor = true}
 
         for prop, v in next, properties do obj[prop] = v end
 
