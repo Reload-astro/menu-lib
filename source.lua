@@ -1,3 +1,11 @@
+local folderName = "NiggerHook"
+
+if not isfolder(folderName) then makefolder(folderName) end
+
+local gameConfigFolder = folderName .. "/" .. game.PlaceId
+
+if not isfolder(gameConfigFolder) then makefolder(gameConfigFolder) end
+
 function init()
     local inputService = game:GetService("UserInputService")
     local tweenService = game:GetService("TweenService")
@@ -5,7 +13,6 @@ function init()
     local coreGui = game:GetService("CoreGui")
 
     local utility = {}
-    local folderName = "Epic UI Library"
 
     function utility.create(class, properties)
         properties = properties or {}
@@ -288,7 +295,6 @@ function init()
 
     function library:Load(opts)
         local options = utility.table(opts)
-        local folderName = options.name or "Epic UI Library"
         local name = options.name or "Epic UI Library"
         local sizeX = options.sizeX or 466
         local sizeY = options.sizeY or 350
@@ -3783,12 +3789,6 @@ function init()
 
         return windowTypes
     end
-
-    if not isfolder(folderName) then makefolder(folderName) end
-
-    local gameConfigFolder = folderName .. "/" .. game.PlaceId
-
-    if not isfolder(gameConfigFolder) then makefolder(gameConfigFolder) end
 
     return library
 end
