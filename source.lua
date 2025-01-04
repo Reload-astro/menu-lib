@@ -318,11 +318,17 @@ function init()
 		Inline.Size = UDim2.new(1, -2, 1, -2)
 		Inline.ZIndex = 51
 		Inline.BackgroundTransparency = 1
+        Inline.Parent = Outline
 
 		local UICorner2 = Instance.new("UICorner")
 		UICorner2.Name = "UICorner_2"
 		UICorner2.CornerRadius = UDim.new(0, 4)
 		UICorner2.Parent = Inline
+
+        local UIPadding = Instance.new("UIPadding")
+		UIPadding.Name = "UIPadding"
+		UIPadding.PaddingRight = UDim.new(0, 6)
+		UIPadding.Parent = Inline
 
 		local Title = Instance.new("TextLabel")
 		Title.Name = "Title"
@@ -341,13 +347,6 @@ function init()
 		Title.Size = UDim2.fromScale(0, 1)
 		Title.Parent = Inline
 		Title.TextTransparency = 1
-
-		local UIPadding = Instance.new("UIPadding")
-		UIPadding.Name = "UIPadding"
-		UIPadding.PaddingRight = UDim.new(0, 6)
-		UIPadding.Parent = Inline
-
-		Inline.Parent = Outline
 
 
 		function notification:remove()
