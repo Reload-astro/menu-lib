@@ -2546,9 +2546,7 @@ function init()
                         [Enum.KeyCode.Backquote] = "`",
                         [Enum.UserInputType.MouseButton1] = "Mouse 1",
                         [Enum.UserInputType.MouseButton2] = "Mouse 2",
-                        [Enum.UserInputType.MouseButton3] = "Mouse 3",
-                        [Enum.UserInputType.MouseButton4] = "Mouse 4",
-                        [Enum.UserInputType.MouseButton5] = "Mouse 5"
+                        [Enum.UserInputType.MouseButton3] = "Mouse 3"
                     }
 
                     local toggled = false
