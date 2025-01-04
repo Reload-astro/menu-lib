@@ -111,6 +111,7 @@ function init()
 
     local library = utility.table {
         flags = {},
+        notifications = {};
         toggled = true,
         color = Color3.fromRGB(255, 0, 0),
         keybind = Enum.KeyCode.RightShift,
@@ -131,7 +132,6 @@ function init()
     end
 
     local gui = utility.create("ScreenGui")
-    local wmgui = utility.create("ScreenGui")
 
     inputService.InputBegan:Connect(function(input)
         if input.KeyCode == library.keybind then
@@ -258,6 +258,92 @@ function init()
         writefile(gameConfigFolder .. "/" .. name .. ".cfg", crypt.base64encode("return " .. configstr))
     end
 
+    function library:NotificationsPosition()
+        for i, v in pairs(self.notifications) do 
+            local position = Vector2.new(20, 20)
+            tweenService:Create(
+                v.Container,
+                TweenInfo.new(1, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out),
+                {Position = UDim2.new(0, position.X, 0, position.Y + (i * 25))}
+            ):Play()
+        end 
+    end
+    
+    function library:Notification(message, duration)
+        local notification = {Container = nil, Objects = {}}
+        local position = Vector2.new(20, 20)
+    
+        local NewInd = Instance.new("Frame")
+        NewInd.Name = "NewInd"
+        NewInd.AutomaticSize = Enum.AutomaticSize.X
+        NewInd.Position = UDim2.new(0, 20, 0, 20)
+        NewInd.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+        NewInd.BackgroundTransparency = 1
+        NewInd.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        NewInd.Size = UDim2.fromOffset(0, 20)
+        NewInd.Parent = gui
+        notification.Container = NewInd
+    
+        local Outline = Instance.new("Frame")
+        Outline.Name = "Outline"
+        Outline.AnchorPoint = Vector2.new(0, 0)
+        Outline.AutomaticSize = Enum.AutomaticSize.X
+        Outline.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+        Outline.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        Outline.BorderSizePixel = 1
+        Outline.Position = UDim2.new(0, 0, 0, 0)
+        Outline.Size = UDim2.fromOffset(0, 20)
+        Outline.Visible = true
+        Outline.ZIndex = 50
+        Outline.Parent = NewInd
+        Outline.BackgroundTransparency = 1
+    
+        local Title = Instance.new("TextLabel")
+        Title.Name = "Title"
+        Title.Font = Enum.Font.Gotham
+        Title.Text = message
+        Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+        Title.TextSize = 13
+        Title.TextXAlignment = Enum.TextXAlignment.Left
+        Title.AutomaticSize = Enum.AutomaticSize.X
+        Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Title.BackgroundTransparency = 1
+        Title.Position = UDim2.fromOffset(5, 0)
+        Title.Size = UDim2.fromScale(0, 1)
+        Title.Parent = Outline
+    
+        function notification:remove()
+            table.remove(library.notifications, table.find(library.notifications, notification))
+            library:NotificationsPosition()
+            task.wait(0.5)
+            NewInd:Destroy()
+        end
+    
+        task.spawn(function()
+            for _, descendant in ipairs(NewInd:GetDescendants()) do
+                if descendant:IsA("Frame") then
+                    tweenService:Create(
+                        descendant,
+                        TweenInfo.new(1, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out),
+                        {BackgroundTransparency = 0}
+                    ):Play()
+                elseif descendant:IsA("UIStroke") then
+                    tweenService:Create(
+                        descendant,
+                        TweenInfo.new(1, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out),
+                        {Transparency = 0}
+                    ):Play()
+                end
+            end
+            task.wait(duration)
+            notification:remove()
+        end)
+    
+        table.insert(self.notifications, notification)
+        self:NotificationsPosition()
+        return notification
+    end
+
     function library:Watermark(opts)
         local options = utility.table(opts)
         local name = options.name or "Epic UI Library"
@@ -266,7 +352,7 @@ function init()
             Position = UDim2.new(0, 10, 0, 10),
             BackgroundColor3 = Color3.fromRGB(20, 20, 20),
             BorderSizePixel = 0,
-            Parent = wmgui
+            Parent = gui
         })
 
         local textLabel = utility.create("TextLabel", {
