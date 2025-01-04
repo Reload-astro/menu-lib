@@ -53,33 +53,6 @@ function init()
         if callback then anim.Completed:Connect(callback) end
     end
 
-    function utility.drag(obj, dragSpeed)
-        local start, objPosition, dragging
-
-        obj.InputBegan:Connect(function(input)
-            if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                dragging = true
-                start = input.Position
-                objPosition = obj.Position
-            end
-        end)
-
-        obj.InputEnded:Connect(function(input)
-            if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                dragging = false
-            end
-        end)
-
-        inputService.InputChanged:Connect(function(input)
-            if input.UserInputType == Enum.UserInputType.MouseMovement and
-                dragging then
-                utility.tween(obj, {dragSpeed}, {
-                    Position = UDim2.new(objPosition.X.Scale, objPosition.X.Offset + (input.Position - start).X, objPosition.Y.Scale, objPosition.Y.Offset + (input.Position - start).Y)
-                })
-            end
-        end)
-    end
-
     function utility.get_center(sizeX, sizeY)
         return UDim2.new(0.5, -(sizeX / 2), 0.5, -(sizeY / 2))
     end
@@ -132,6 +105,32 @@ function init()
     end
 
     local gui = utility.create("ScreenGui")
+
+    function utility.drag(obj, dragSpeed)
+        local start, objPosition, dragging
+        obj.InputBegan:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 and gui.Enabled == true then
+                dragging = true
+                start = input.Position
+                objPosition = obj.Position
+            end
+        end)
+
+        obj.InputEnded:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 and gui.Enabled == true then
+                dragging = false
+            end
+        end)
+
+        inputService.InputChanged:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseMovement and gui.Enabled == true and
+                dragging then
+                utility.tween(obj, {dragSpeed}, {
+                    Position = UDim2.new(objPosition.X.Scale, objPosition.X.Offset + (input.Position - start).X, objPosition.Y.Scale, objPosition.Y.Offset + (input.Position - start).Y)
+                })
+            end
+        end) 
+    end
 
     local wgui = Instance.new("ScreenGui")
     wgui.ResetOnSpawn = false
@@ -263,91 +262,133 @@ function init()
         writefile(gameConfigFolder .. "/" .. name .. ".cfg", crypt.base64encode("return " .. configstr))
     end
 
-    function library:NotificationsPosition()
-        for i, v in pairs(self.notifications) do 
-            local position = Vector2.new(20, 20)
-            tweenService:Create(
-                v.Container,
-                TweenInfo.new(1, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out),
-                {Position = UDim2.new(0, position.X, 0, position.Y + (i * 25))}
-            ):Play()
-        end 
-    end
+	function library:NotificationsPosition(position)
+		for i, v in pairs(library.notifications) do 
+			local Position = Vector2.new(20, 20)
+			tweenService:Create(v.Container, TweenInfo.new(1, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {Position = UDim2.new(0,Position.X,0,Position.Y + (i * 25))}):Play()
+		end 
+	end
     
     function library:Notification(message, duration)
-        local notification = {Container = nil, Objects = {}}
-        local position = Vector2.new(20, 20)
-    
-        local NewInd = Instance.new("Frame")
-        NewInd.Name = "NewInd"
-        NewInd.AutomaticSize = Enum.AutomaticSize.X
-        NewInd.Position = UDim2.new(0, 20, 0, 20)
-        NewInd.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-        NewInd.BackgroundTransparency = 1
-        NewInd.BorderColor3 = Color3.fromRGB(0, 0, 0)
-        NewInd.Size = UDim2.fromOffset(0, 20)
-        NewInd.Parent = wgui
-        notification.Container = NewInd
-    
-        local Outline = Instance.new("Frame")
-        Outline.Name = "Outline"
-        Outline.AnchorPoint = Vector2.new(0, 0)
-        Outline.AutomaticSize = Enum.AutomaticSize.X
-        Outline.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-        Outline.BorderColor3 = Color3.fromRGB(0, 0, 0)
-        Outline.BorderSizePixel = 1
-        Outline.Position = UDim2.new(0, 0, 0, 0)
-        Outline.Size = UDim2.fromOffset(0, 20)
-        Outline.Visible = true
-        Outline.ZIndex = 50
-        Outline.Parent = NewInd
-        Outline.BackgroundTransparency = 1
-    
-        local Title = Instance.new("TextLabel")
-        Title.Name = "Title"
-        Title.Font = Enum.Font.Gotham
-        Title.Text = message
-        Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-        Title.TextSize = 13
-        Title.TextXAlignment = Enum.TextXAlignment.Left
-        Title.AutomaticSize = Enum.AutomaticSize.X
-        Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        Title.BackgroundTransparency = 1
-        Title.Position = UDim2.fromOffset(5, 0)
-        Title.Size = UDim2.fromScale(0, 1)
-        Title.Parent = Outline
-    
-        function notification:remove()
-            table.remove(library.notifications, table.find(library.notifications, notification))
-            library:NotificationsPosition()
-            task.wait(0.5)
-            NewInd:Destroy()
-        end
-    
-        task.spawn(function()
-            for _, descendant in ipairs(NewInd:GetDescendants()) do
-                if descendant:IsA("Frame") then
-                    tweenService:Create(
-                        descendant,
-                        TweenInfo.new(1, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out),
-                        {BackgroundTransparency = 0}
-                    ):Play()
-                elseif descendant:IsA("UIStroke") then
-                    tweenService:Create(
-                        descendant,
-                        TweenInfo.new(1, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out),
-                        {Transparency = 0}
-                    ):Play()
-                end
-            end
-            task.wait(duration)
-            notification:remove()
-        end)
-    
-        table.insert(self.notifications, notification)
-        self:NotificationsPosition()
-        return notification
-    end
+		local notification = {Container = nil, Objects = {}}
+		--
+		local Position = Vector2.new(20, 20)
+		--
+		local NewInd = Instance.new("Frame")
+		NewInd.Name = "NewInd"
+		NewInd.AutomaticSize = Enum.AutomaticSize.X
+		NewInd.Position = UDim2.new(0,20,0,20)
+		NewInd.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+		NewInd.BackgroundTransparency = 1
+		NewInd.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		NewInd.Size = UDim2.fromOffset(0, 20)
+		NewInd.Parent = wgui
+		notification.Container = NewInd
+
+		local Outline = Instance.new("Frame")
+		Outline.Name = "Outline"
+		Outline.AnchorPoint = Vector2.new(0, 0)
+		Outline.AutomaticSize = Enum.AutomaticSize.X
+		Outline.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+		Outline.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		Outline.BorderSizePixel = 1
+		Outline.Position = UDim2.new(0,0,0,0)
+		Outline.Size = UDim2.fromOffset(0, 20)
+		Outline.Visible = true
+		Outline.ZIndex = 50
+		Outline.Parent = NewInd
+		Outline.BackgroundTransparency = 1
+
+		local UICorner = Instance.new("UICorner")
+		UICorner.Name = "UICorner"
+		UICorner.CornerRadius = UDim.new(0, 4)
+		UICorner.Parent = Outline
+
+		local UIStroke = Instance.new("UIStroke")
+		UIStroke.Name = "UIStroke"
+		UIStroke.Parent = Outline
+		UIStroke.Transparency = 1
+
+		local Inline = Instance.new("Frame")
+		Inline.Name = "Inline"
+		Inline.BackgroundColor3 = Color3.fromRGB(13, 13, 13)
+		Inline.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		Inline.BorderSizePixel = 0
+		Inline.Position = UDim2.fromOffset(1, 1)
+		Inline.Size = UDim2.new(1, -2, 1, -2)
+		Inline.ZIndex = 51
+		Inline.BackgroundTransparency = 1
+
+		local UICorner2 = Instance.new("UICorner")
+		UICorner2.Name = "UICorner_2"
+		UICorner2.CornerRadius = UDim.new(0, 4)
+		UICorner2.Parent = Inline
+
+		local Title = Instance.new("TextLabel")
+		Title.Name = "Title"
+		Title.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json")
+		Title.RichText = true
+		Title.Text = message
+		Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+		Title.TextSize = 13
+		Title.TextXAlignment = Enum.TextXAlignment.Left
+		Title.AutomaticSize = Enum.AutomaticSize.X
+		Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		Title.BackgroundTransparency = 1
+		Title.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		Title.BorderSizePixel = 0
+		Title.Position = UDim2.fromOffset(5, 0)
+		Title.Size = UDim2.fromScale(0, 1)
+		Title.Parent = Inline
+		Title.TextTransparency = 1
+
+		local UIPadding = Instance.new("UIPadding")
+		UIPadding.Name = "UIPadding"
+		UIPadding.PaddingRight = UDim.new(0, 6)
+		UIPadding.Parent = Inline
+
+		Inline.Parent = Outline
+
+
+		function notification:remove()
+			table.remove(library.notifications, table.find(library.notifications, notification))
+			library:NotificationsPosition(Position)
+			task.wait(0.5)
+			NewInd:Destroy()
+		end
+
+		task.spawn(function()
+			Outline.AnchorPoint = Vector2.new(1,0)
+			for i,v in next, NewInd:GetDescendants() do
+				if v:IsA("Frame") then
+					tweenService:Create(v, TweenInfo.new(1, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {BackgroundTransparency = 0}):Play()
+				elseif v:IsA("UIStroke") then
+					tweenService:Create(v, TweenInfo.new(1, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {Transparency = 0}):Play()
+				end
+			end
+			local Tween1 = tweenService:Create(Outline, TweenInfo.new(1, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {AnchorPoint = Vector2.new(0,0)}):Play()
+			tweenService:Create(Title, TweenInfo.new(1, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {TextTransparency = 0}):Play()
+			task.wait(duration)
+			--tweenService:Create(ActualInd, TweenInfo.new(1, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {AnchorPoint = Vector2.new(1,0)}):Play()
+			for i,v in next, NewInd:GetDescendants() do
+				if v:IsA("Frame") then
+					tweenService:Create(v, TweenInfo.new(1, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {BackgroundTransparency = 1}):Play()
+				elseif v:IsA("UIStroke") then
+					tweenService:Create(v, TweenInfo.new(1, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {Transparency = 1}):Play()
+				end
+			end
+			tweenService:Create(Title, TweenInfo.new(1, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {TextTransparency = 1}):Play()
+		end)
+
+		task.delay(duration + 0.1, function()
+			notification:remove()
+		end)
+
+		table.insert(library.notifications, notification)
+		library:NotificationsPosition(Position)
+		NewInd.Position = UDim2.new(0,Position.X,0,Position.Y + (table.find(library.notifications, notification) * 25))
+		return notification
+	end
 
     function library:Watermark(opts)
         local options = utility.table(opts)
