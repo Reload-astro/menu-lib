@@ -133,6 +133,11 @@ function init()
 
     local gui = utility.create("ScreenGui")
 
+    local wgui = Instance.new("ScreenGui")
+    wgui.ResetOnSpawn = false
+    wgui.Name = "Always On"
+    wgui.Parent = coreGui
+
     inputService.InputBegan:Connect(function(input)
         if input.KeyCode == library.keybind then
             library.toggled = not library.toggled
@@ -281,7 +286,7 @@ function init()
         NewInd.BackgroundTransparency = 1
         NewInd.BorderColor3 = Color3.fromRGB(0, 0, 0)
         NewInd.Size = UDim2.fromOffset(0, 20)
-        NewInd.Parent = gui
+        NewInd.Parent = wgui
         notification.Container = NewInd
     
         local Outline = Instance.new("Frame")
@@ -352,7 +357,7 @@ function init()
             Position = UDim2.new(0, 10, 0, 10),
             BackgroundColor3 = Color3.fromRGB(20, 20, 20),
             BorderSizePixel = 0,
-            Parent = gui
+            Parent = wgui
         })
 
         local textLabel = utility.create("TextLabel", {
