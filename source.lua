@@ -2546,7 +2546,9 @@ function init()
                         [Enum.KeyCode.Backquote] = "`",
                         [Enum.UserInputType.MouseButton1] = "Mouse 1",
                         [Enum.UserInputType.MouseButton2] = "Mouse 2",
-                        [Enum.UserInputType.MouseButton3] = "Mouse 3"
+                        [Enum.UserInputType.MouseButton3] = "Mouse 3",
+                        [Enum.UserInputType.MouseButton4] = "Mouse 4",
+                        [Enum.UserInputType.MouseButton5] = "Mouse 5"
                     }
 
                     local toggled = false
@@ -2625,46 +2627,30 @@ function init()
                     value.Position = UDim2.new(1, -value.TextBounds.X, 0, 0)
 
                     local function toggleToggle()
-                        toggled = not toggled
-
-                        if toggled then
+                        -- Keep toggled state true regardless of interactions
+                        toggled = true
+                    
+                        -- Ensure the icon gradient remains active
+                        if not table.find(coloredGradients, iconGradient) then
                             table.insert(coloredGradients, iconGradient)
-                        else
-                            table.remove(coloredGradients, table.find(
-                                             coloredGradients, iconGradient))
                         end
-
-                        local textColor = toggled and
-                                              Color3.fromRGB(255, 255, 255) or
-                                              Color3.fromRGB(180, 180, 180)
-                        local gradientColor
-                        if toggled then
-                            gradientColor = ColorSequence.new {
-                                ColorSequenceKeypoint.new(0, library.color),
-                                ColorSequenceKeypoint.new(1,
-                                                          utility.change_color(
-                                                              library.color, -47))
-                            }
-                        else
-                            gradientColor = ColorSequence.new {
-                                ColorSequenceKeypoint.new(0, Color3.fromRGB(32,
-                                                                            32,
-                                                                            32)),
-                                ColorSequenceKeypoint.new(1, Color3.fromRGB(17,
-                                                                            17,
-                                                                            17))
-                            }
-                        end
-
+                    
+                        local textColor = Color3.fromRGB(255, 255, 255)
+                        local gradientColor = ColorSequence.new {
+                            ColorSequenceKeypoint.new(0, library.color),
+                            ColorSequenceKeypoint.new(1, utility.change_color(library.color, -47))
+                        }
+                    
                         iconGradient.Color = gradientColor
                         title.TextColor3 = textColor
-
+                    
                         if toggleFlag then
                             library.flags[toggleFlag] = toggled
                         end
-
+                    
                         toggleCallback(toggled)
                     end
+                    
 
                     toggleKeybind.MouseButton1Click:Connect(toggleToggle)
 
