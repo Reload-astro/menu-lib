@@ -274,79 +274,87 @@ function init()
 		--
 		local Position = Vector2.new(20, 20)
 		--
-		local NewInd = Instance.new("Frame")
-		NewInd.Name = "NewInd"
-		NewInd.AutomaticSize = Enum.AutomaticSize.X
-		NewInd.Position = UDim2.new(0,20,0,20)
-		NewInd.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-		NewInd.BackgroundTransparency = 1
-		NewInd.BorderColor3 = Color3.fromRGB(0, 0, 0)
-		NewInd.Size = UDim2.fromOffset(0, 20)
-		NewInd.Parent = wgui
-		notification.Container = NewInd
-
-		local Outline = Instance.new("Frame")
-		Outline.Name = "Outline"
-		Outline.AnchorPoint = Vector2.new(0, 0)
-		Outline.AutomaticSize = Enum.AutomaticSize.X
-		Outline.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-		Outline.BorderColor3 = Color3.fromRGB(0, 0, 0)
-		Outline.BorderSizePixel = 1
-		Outline.Position = UDim2.new(0,0,0,0)
-		Outline.Size = UDim2.fromOffset(0, 20)
-		Outline.Visible = true
-		Outline.ZIndex = 50
-		Outline.Parent = NewInd
-		Outline.BackgroundTransparency = 1
-
-		local UICorner = Instance.new("UICorner")
-		UICorner.Name = "UICorner"
-		UICorner.CornerRadius = UDim.new(0, 4)
-		UICorner.Parent = Outline
-
-		local UIStroke = Instance.new("UIStroke")
-		UIStroke.Name = "UIStroke"
-		UIStroke.Parent = Outline
-		UIStroke.Transparency = 1
-
-		local Inline = Instance.new("Frame")
-		Inline.Name = "Inline"
-		Inline.BackgroundColor3 = Color3.fromRGB(13, 13, 13)
-		Inline.BorderColor3 = Color3.fromRGB(0, 0, 0)
-		Inline.BorderSizePixel = 0
-		Inline.Position = UDim2.fromOffset(1, 1)
-		Inline.Size = UDim2.new(1, -2, 1, -2)
-		Inline.ZIndex = 51
-		Inline.BackgroundTransparency = 1
-        Inline.Parent = Outline
-
-		local UICorner2 = Instance.new("UICorner")
-		UICorner2.Name = "UICorner_2"
-		UICorner2.CornerRadius = UDim.new(0, 4)
-		UICorner2.Parent = Inline
-
-        local UIPadding = Instance.new("UIPadding")
-		UIPadding.Name = "UIPadding"
-		UIPadding.PaddingRight = UDim.new(0, 6)
-		UIPadding.Parent = Inline
-
-		local Title = Instance.new("TextLabel")
-		Title.Name = "Title"
-		Title.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json")
-		Title.RichText = true
-		Title.Text = message
-		Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-		Title.TextSize = 13
-		Title.TextXAlignment = Enum.TextXAlignment.Left
-		Title.AutomaticSize = Enum.AutomaticSize.X
-		Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-		Title.BackgroundTransparency = 1
-		Title.BorderColor3 = Color3.fromRGB(0, 0, 0)
-		Title.BorderSizePixel = 0
-		Title.Position = UDim2.fromOffset(5, 0)
-		Title.Size = UDim2.fromScale(0, 1)
-		Title.Parent = Inline
-		Title.TextTransparency = 1
+        local NewInd = utility.create("Frame", {
+            Name = "NewInd",
+            AutomaticSize = Enum.AutomaticSize.X,
+            Position = UDim2.new(0, 20, 0, 20),
+            BackgroundColor3 = Color3.fromRGB(50, 50, 50),
+            BackgroundTransparency = 1,
+            BorderColor3 = Color3.fromRGB(0, 0, 0),
+            Size = UDim2.fromOffset(0, 20),
+            Parent = wgui,
+        })
+        notification.Container = NewInd
+    
+        local Outline = utility.create("Frame", {
+            Name = "Outline",
+            AnchorPoint = Vector2.new(0, 0),
+            AutomaticSize = Enum.AutomaticSize.X,
+            BackgroundColor3 = Color3.fromRGB(50, 50, 50),
+            BorderColor3 = Color3.fromRGB(0, 0, 0),
+            BorderSizePixel = 1,
+            Position = UDim2.new(0, 0, 0, 0),
+            Size = UDim2.fromOffset(0, 20),
+            Visible = true,
+            ZIndex = 50,
+            BackgroundTransparency = 1,
+            Parent = NewInd,
+        })
+    
+        local UICorner = utility.create("UICorner", {
+            Name = "UICorner",
+            CornerRadius = UDim.new(0, 4),
+            Parent = Outline,
+        })
+    
+        local UIStroke = utility.create("UIStroke", {
+            Name = "UIStroke",
+            Transparency = 1,
+            Parent = Outline,
+        })
+    
+        local Inline = utility.create("Frame", {
+            Name = "Inline",
+            BackgroundColor3 = Color3.fromRGB(13, 13, 13),
+            BorderColor3 = Color3.fromRGB(0, 0, 0),
+            BorderSizePixel = 0,
+            Position = UDim2.fromOffset(1, 1),
+            Size = UDim2.new(1, -2, 1, -2),
+            ZIndex = 51,
+            BackgroundTransparency = 1,
+            Parent = Outline,
+        })
+    
+        local UICorner2 = utility.create("UICorner", {
+            Name = "UICorner_2",
+            CornerRadius = UDim.new(0, 4),
+            Parent = Inline,
+        })
+    
+        local UIPadding = utility.create("UIPadding", {
+            Name = "UIPadding",
+            PaddingRight = UDim.new(0, 6),
+            Parent = Inline,
+        })
+    
+        local Title = utility.create("TextLabel", {
+            Name = "Title",
+            FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json"),
+            RichText = true,
+            Text = message,
+            TextColor3 = Color3.fromRGB(255, 255, 255),
+            TextSize = 13,
+            TextXAlignment = Enum.TextXAlignment.Left,
+            AutomaticSize = Enum.AutomaticSize.X,
+            BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+            BackgroundTransparency = 1,
+            BorderColor3 = Color3.fromRGB(0, 0, 0),
+            BorderSizePixel = 0,
+            Position = UDim2.fromOffset(5, 0),
+            Size = UDim2.fromScale(0, 1),
+            TextTransparency = 1,
+            Parent = Inline,
+        })
 
 
 		function notification:remove()
@@ -496,30 +504,6 @@ function init()
             SortOrder = Enum.SortOrder.LayoutOrder,
             Padding = UDim.new(0, 4),
             Parent = tabTogglesHolder
-        })
-
-        local keybindFrame = utility.create("Frame", {
-            Name = "KeybindFrame",
-            Size = UDim2.new(0, 200, 0, 50),
-            Position = UDim2.new(0.1, 0, 0.1, 0),
-            BackgroundColor3 = Color3.fromRGB(22, 22, 22),
-            BorderSizePixel = 0,
-            Active = true,
-            Parent = gui
-        })
-    
-        utility.drag(keybindFrame, dragSpeed)
-    
-        local titleBar = utility.create("TextLabel", {
-            Name = "TitleBar",
-            Size = UDim2.new(1, 0, 0, 20),
-            BackgroundColor3 = Color3.fromRGB(0, 0, 0),
-            BackgroundTransparency = 0.5,
-            TextColor3 = Color3.fromRGB(255, 255, 255),
-            TextSize = 14,
-            Font = Enum.Font.GothamBold,
-            Text = "keybinds",
-            Parent = keybindFrame
         })
 
         local windowTypes = utility.table({count = 0})
@@ -3942,53 +3926,6 @@ function init()
 
             return tabTypes
         end
-
-        local keybindList = utility.create("ScrollingFrame", {
-            Name = "KeybindList",
-            Size = UDim2.new(1, 0, 1, -20),
-            Position = UDim2.new(0, 0, 0, 20),
-            BackgroundTransparency = 1,
-            ScrollBarThickness = 5,
-            Parent = keybindFrame
-        })
-    
-        utility.create("UIListLayout", {
-            SortOrder = Enum.SortOrder.LayoutOrder,
-            Padding = UDim.new(0, 2),
-            Parent = keybindList
-        })
-    
-        local function updateKeybindList()
-            for _, child in pairs(keybindList:GetChildren()) do
-                if child:IsA("TextLabel") then
-                    child:Destroy()
-                end
-            end
-    
-            for keybind, toggled in pairs(library.flags.keybinds) do
-                utility.create("TextLabel", {
-                    Size = UDim2.new(1, 0, 0, 20),
-                    BackgroundTransparency = 1,
-                    TextColor3 = Color3.fromRGB(255, 255, 255),
-                    TextSize = 12,
-                    Font = Enum.Font.Gotham,
-                    Text = keybind .. "  [" .. (toggled and "toggled" or "off") .. "]",
-                    Parent = keybindList
-                })
-            end
-        end
-
-        inputService.InputBegan:Connect(function(input)
-            if input.KeyCode and input.KeyCode.Name then
-                local keyName = input.KeyCode.Name
-                if library.flags.keybinds and library.flags.keybinds[keyName] ~= nil then
-                    library.flags.keybinds[keyName] = not library.flags.keybinds[keyName]
-                    updateKeybindList()
-                end
-            end
-        end)
-
-        updateKeybindList()
 
         return windowTypes
     end
