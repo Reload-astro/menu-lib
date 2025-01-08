@@ -558,11 +558,15 @@ function init()
         end
 
         inputService.InputBegan:Connect(function(input)
-            if library.flags.keybinds[input.KeyCode.Name] ~= nil then
-                library.flags.keybinds[input.KeyCode.Name] = not library.flags.keybinds[input.KeyCode.Name]
-                updateKeybindList()
+            if input.KeyCode and input.KeyCode.Name then
+                local keyName = input.KeyCode.Name
+                if library.flags.keybinds and library.flags.keybinds[keyName] ~= nil then
+                    library.flags.keybinds[keyName] = not library.flags.keybinds[keyName]
+                    updateKeybindList()
+                end
             end
         end)
+        
 
         local windowTypes = utility.table({count = 0})
 
