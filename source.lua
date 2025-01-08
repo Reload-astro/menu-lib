@@ -498,6 +498,72 @@ function init()
             Parent = tabTogglesHolder
         })
 
+        local keybindFrame = utility.create("Frame", {
+            Name = "KeybindFrame",
+            Size = UDim2.new(0, 200, 0, 50),
+            Position = UDim2.new(0.1, 0, 0.1, 0),
+            BackgroundColor3 = Color3.fromRGB(22, 22, 22),
+            BorderSizePixel = 0,
+            Active = true,
+            Parent = gui
+        })
+    
+        utility.drag(keybindFrame, dragSpeed)
+    
+        local titleBar = utility.create("TextLabel", {
+            Name = "TitleBar",
+            Size = UDim2.new(1, 0, 0, 20),
+            BackgroundColor3 = Color3.fromRGB(0, 0, 0),
+            BackgroundTransparency = 0.5,
+            TextColor3 = Color3.fromRGB(255, 255, 255),
+            TextSize = 14,
+            Font = Enum.Font.GothamBold,
+            Text = "keybinds",
+            Parent = keybindFrame
+        })
+    
+        local keybindList = utility.create("ScrollingFrame", {
+            Name = "KeybindList",
+            Size = UDim2.new(1, 0, 1, -20),
+            Position = UDim2.new(0, 0, 0, 20),
+            BackgroundTransparency = 1,
+            ScrollBarThickness = 5,
+            Parent = keybindFrame
+        })
+    
+        utility.create("UIListLayout", {
+            SortOrder = Enum.SortOrder.LayoutOrder,
+            Padding = UDim.new(0, 2),
+            Parent = keybindList
+        })
+    
+        local function updateKeybindList()
+            for _, child in pairs(keybindList:GetChildren()) do
+                if child:IsA("TextLabel") then
+                    child:Destroy()
+                end
+            end
+    
+            for keybind, toggled in pairs(library.flags.keybinds) do
+                utility.create("TextLabel", {
+                    Size = UDim2.new(1, 0, 0, 20),
+                    BackgroundTransparency = 1,
+                    TextColor3 = Color3.fromRGB(255, 255, 255),
+                    TextSize = 12,
+                    Font = Enum.Font.Gotham,
+                    Text = keybind .. "  [" .. (toggled and "toggled" or "off") .. "]",
+                    Parent = keybindList
+                })
+            end
+        end
+
+        inputService.InputBegan:Connect(function(input)
+            if library.flags.keybinds[input.KeyCode.Name] ~= nil then
+                library.flags.keybinds[input.KeyCode.Name] = not library.flags.keybinds[input.KeyCode.Name]
+                updateKeybindList()
+            end
+        end)
+
         local windowTypes = utility.table({count = 0})
 
         function windowTypes:Show() gui.Enabled = true end
@@ -3918,6 +3984,8 @@ function init()
 
             return tabTypes
         end
+
+        updateKeybindList()
 
         return windowTypes
     end
