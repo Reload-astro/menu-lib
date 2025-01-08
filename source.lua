@@ -521,52 +521,6 @@ function init()
             Text = "keybinds",
             Parent = keybindFrame
         })
-    
-        local keybindList = utility.create("ScrollingFrame", {
-            Name = "KeybindList",
-            Size = UDim2.new(1, 0, 1, -20),
-            Position = UDim2.new(0, 0, 0, 20),
-            BackgroundTransparency = 1,
-            ScrollBarThickness = 5,
-            Parent = keybindFrame
-        })
-    
-        utility.create("UIListLayout", {
-            SortOrder = Enum.SortOrder.LayoutOrder,
-            Padding = UDim.new(0, 2),
-            Parent = keybindList
-        })
-    
-        local function updateKeybindList()
-            for _, child in pairs(keybindList:GetChildren()) do
-                if child:IsA("TextLabel") then
-                    child:Destroy()
-                end
-            end
-    
-            for keybind, toggled in pairs(library.flags.keybinds) do
-                utility.create("TextLabel", {
-                    Size = UDim2.new(1, 0, 0, 20),
-                    BackgroundTransparency = 1,
-                    TextColor3 = Color3.fromRGB(255, 255, 255),
-                    TextSize = 12,
-                    Font = Enum.Font.Gotham,
-                    Text = keybind .. "  [" .. (toggled and "toggled" or "off") .. "]",
-                    Parent = keybindList
-                })
-            end
-        end
-
-        inputService.InputBegan:Connect(function(input)
-            if input.KeyCode and input.KeyCode.Name then
-                local keyName = input.KeyCode.Name
-                if library.flags.keybinds and library.flags.keybinds[keyName] ~= nil then
-                    library.flags.keybinds[keyName] = not library.flags.keybinds[keyName]
-                    updateKeybindList()
-                end
-            end
-        end)
-        
 
         local windowTypes = utility.table({count = 0})
 
@@ -3988,6 +3942,51 @@ function init()
 
             return tabTypes
         end
+
+        local keybindList = utility.create("ScrollingFrame", {
+            Name = "KeybindList",
+            Size = UDim2.new(1, 0, 1, -20),
+            Position = UDim2.new(0, 0, 0, 20),
+            BackgroundTransparency = 1,
+            ScrollBarThickness = 5,
+            Parent = keybindFrame
+        })
+    
+        utility.create("UIListLayout", {
+            SortOrder = Enum.SortOrder.LayoutOrder,
+            Padding = UDim.new(0, 2),
+            Parent = keybindList
+        })
+    
+        local function updateKeybindList()
+            for _, child in pairs(keybindList:GetChildren()) do
+                if child:IsA("TextLabel") then
+                    child:Destroy()
+                end
+            end
+    
+            for keybind, toggled in pairs(library.flags.keybinds) do
+                utility.create("TextLabel", {
+                    Size = UDim2.new(1, 0, 0, 20),
+                    BackgroundTransparency = 1,
+                    TextColor3 = Color3.fromRGB(255, 255, 255),
+                    TextSize = 12,
+                    Font = Enum.Font.Gotham,
+                    Text = keybind .. "  [" .. (toggled and "toggled" or "off") .. "]",
+                    Parent = keybindList
+                })
+            end
+        end
+
+        inputService.InputBegan:Connect(function(input)
+            if input.KeyCode and input.KeyCode.Name then
+                local keyName = input.KeyCode.Name
+                if library.flags.keybinds and library.flags.keybinds[keyName] ~= nil then
+                    library.flags.keybinds[keyName] = not library.flags.keybinds[keyName]
+                    updateKeybindList()
+                end
+            end
+        end)
 
         updateKeybindList()
 
