@@ -352,8 +352,8 @@ function init()
             BorderSizePixel = 0,
             Position = UDim2.fromOffset(5, 0),
             Size = UDim2.fromScale(0, 1),
-            ZIndex = 3,
             TextTransparency = 1,
+            ZIndex = 100,
             Parent = Inline,
         })
 
