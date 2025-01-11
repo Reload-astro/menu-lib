@@ -1,5 +1,3 @@
-local HttpService = game:GetService("HttpService")
-
 local ENABLE_TRACEBACK = false
 
 local signal = {}
