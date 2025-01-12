@@ -1,4 +1,4 @@
-local folderName = "NiggerHook"
+local folderName = "Aurora"
 
 if not isfolder(folderName) then makefolder(folderName) end
 
