@@ -395,8 +395,44 @@ function library:Notification(message, duration)
     return notification
 end
 
+function library:Watermark(opts)
+    local options = utility.table(opts)
+    local name = options.name or "Epic UI Library"
+    local watermark = utility.create("Frame", {
+        Size = UDim2.new(0, 200, 0, 30),
+        Position = UDim2.new(0, 10, 0, 10),
+        BackgroundColor3 = Color3.fromRGB(20, 20, 20),
+        BorderSizePixel = 0,
+        Parent = wgui
+    })
+
+    local textLabel = utility.create("TextLabel", {
+        Size = UDim2.new(1, -10, 1, 0),
+        Position = UDim2.new(0, 5, 0, 0),
+        BackgroundTransparency = 1,
+        Text = name.. "\nFPS: 0 Ping: 0",
+        Font = Enum.Font.GothamBold,
+        TextSize = 14,
+        TextColor3 = library.color,
+        TextXAlignment = Enum.TextXAlignment.Left,
+        Parent = watermark
+    })
+
+    utility.drag(watermark, 0.1)
+
+    spawn(function()
+        while true do
+            local fps = math.floor(1 / wait()) -- Calculate FPS
+            local ping = math.random(10, 100) -- Replace with actual ping logic if available
+            textLabel.Text = string.format("%s\nFPS: %d Ping: %d",name, fps, ping)
+            wait(1)
+        end
+    end)
+end
+
 function library:Load(opts)
     local options = utility.table(opts)
+    local name = options.name or "Epic UI Library"
     globals.name = options.name or "Epic UI Library"
     local sizeX = options.sizeX or 466
     local sizeY = options.sizeY or 350
@@ -434,7 +470,7 @@ function library:Load(opts)
         FontSize = Enum.FontSize.Size14,
         TextSize = 14,
         TextColor3 = library.color,
-        Text = globals.name,
+        Text = name,
         Font = Enum.Font.GothamSemibold,
         TextXAlignment = Enum.TextXAlignment.Left,
         Parent = topbar
@@ -3900,40 +3936,6 @@ function library:Load(opts)
     end
 
     return windowTypes
-end
-
-function library:Watermark(opts)
-    local options = utility.table(opts)
-    local watermark = utility.create("Frame", {
-        Size = UDim2.new(0, 200, 0, 30),
-        Position = UDim2.new(0, 10, 0, 10),
-        BackgroundColor3 = Color3.fromRGB(20, 20, 20),
-        BorderSizePixel = 0,
-        Parent = wgui
-    })
-
-    local textLabel = utility.create("TextLabel", {
-        Size = UDim2.new(1, -10, 1, 0),
-        Position = UDim2.new(0, 5, 0, 0),
-        BackgroundTransparency = 1,
-        Text = name.. "\nFPS: 0 Ping: 0",
-        Font = Enum.Font.GothamBold,
-        TextSize = 14,
-        TextColor3 = library.color,
-        TextXAlignment = Enum.TextXAlignment.Left,
-        Parent = watermark
-    })
-
-    utility.drag(watermark, 0.1)
-
-    spawn(function()
-        while true do
-            local fps = math.floor(1 / wait()) -- Calculate FPS
-            local ping = math.random(10, 100) -- Replace with actual ping logic if available
-            textLabel.Text = string.format("%s\nFPS: %d Ping: %d", options.name, fps, ping)
-            wait(1)
-        end
-    end)
 end
 
 return library
