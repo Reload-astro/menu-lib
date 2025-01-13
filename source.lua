@@ -3902,8 +3902,7 @@ function library:Load(opts)
     return windowTypes
 end
 
-function library:Watermark(opts)
-    local options = utility.table(opts)
+function library:Watermark()
     local watermark = utility.create("Frame", {
         Size = UDim2.new(0, 200, 0, 30),
         Position = UDim2.new(0, 10, 0, 10),
