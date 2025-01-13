@@ -395,40 +395,6 @@ function library:Notification(message, duration)
     return notification
 end
 
-function library:Watermark(opts)
-    local options = utility.table(opts)
-    local watermark = utility.create("Frame", {
-        Size = UDim2.new(0, 200, 0, 30),
-        Position = UDim2.new(0, 10, 0, 10),
-        BackgroundColor3 = Color3.fromRGB(20, 20, 20),
-        BorderSizePixel = 0,
-        Parent = wgui
-    })
-
-    local textLabel = utility.create("TextLabel", {
-        Size = UDim2.new(1, -10, 1, 0),
-        Position = UDim2.new(0, 5, 0, 0),
-        BackgroundTransparency = 1,
-        Text = name.. "\nFPS: 0 Ping: 0",
-        Font = Enum.Font.GothamBold,
-        TextSize = 14,
-        TextColor3 = library.color,
-        TextXAlignment = Enum.TextXAlignment.Left,
-        Parent = watermark
-    })
-
-    utility.drag(watermark, 0.1)
-
-    spawn(function()
-        while true do
-            local fps = math.floor(1 / wait()) -- Calculate FPS
-            local ping = math.random(10, 100) -- Replace with actual ping logic if available
-            textLabel.Text = string.format("%s\nFPS: %d Ping: %d",globals.name, fps, ping)
-            wait(1)
-        end
-    end)
-end
-
 function library:Load(opts)
     local options = utility.table(opts)
     globals.name = options.name or "Epic UI Library"
@@ -3934,6 +3900,40 @@ function library:Load(opts)
     end
 
     return windowTypes
+end
+
+function library:Watermark(opts)
+    local options = utility.table(opts)
+    local watermark = utility.create("Frame", {
+        Size = UDim2.new(0, 200, 0, 30),
+        Position = UDim2.new(0, 10, 0, 10),
+        BackgroundColor3 = Color3.fromRGB(20, 20, 20),
+        BorderSizePixel = 0,
+        Parent = wgui
+    })
+
+    local textLabel = utility.create("TextLabel", {
+        Size = UDim2.new(1, -10, 1, 0),
+        Position = UDim2.new(0, 5, 0, 0),
+        BackgroundTransparency = 1,
+        Text = name.. "\nFPS: 0 Ping: 0",
+        Font = Enum.Font.GothamBold,
+        TextSize = 14,
+        TextColor3 = library.color,
+        TextXAlignment = Enum.TextXAlignment.Left,
+        Parent = watermark
+    })
+
+    utility.drag(watermark, 0.1)
+
+    spawn(function()
+        while true do
+            local fps = math.floor(1 / wait()) -- Calculate FPS
+            local ping = math.random(10, 100) -- Replace with actual ping logic if available
+            textLabel.Text = string.format("%s\nFPS: %d Ping: %d",globals.name, fps, ping)
+            wait(1)
+        end
+    end)
 end
 
 return library
