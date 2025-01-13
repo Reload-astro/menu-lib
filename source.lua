@@ -5,6 +5,11 @@ local coreGui = game:GetService("CoreGui")
 
 local utility = {}
 
+local globals = {
+    name = nil,
+    configs = nil
+}
+
 function utility.create(class, properties)
     properties = properties or {}
 
@@ -148,7 +153,7 @@ local flags = {
 }
 
 function library:LoadConfig(file)
-    local str = readfile(gameConfigFolder .. "/" .. file .. ".cfg")
+    local str = readfile(globals.configs .. "/" .. file .. ".cfg")
     local tbl = loadstring(crypt.base64decode(str))()
 
     for flag, value in next, tbl.toggles do
@@ -250,7 +255,7 @@ function library:SaveConfig(name)
 
     configstr = (count > 0 and configstr:sub(1, -2) or configstr) .. "}}"
 
-    writefile(gameConfigFolder .. "/" .. name .. ".cfg", crypt.base64encode("return " .. configstr))
+    writefile(globals.configs .. "/" .. name .. ".cfg", crypt.base64encode("return " .. configstr))
 end
 
 function library:NotificationsPosition(position)
@@ -428,6 +433,7 @@ end
 function library:Load(opts)
     local options = utility.table(opts)
     local name = options.name or "Epic UI Library"
+    globals.name = options.name or "Epic UI Library"
     local sizeX = options.sizeX or 466
     local sizeY = options.sizeY or 350
     local color = options.color or Color3.fromRGB(255, 255, 255)
@@ -435,14 +441,14 @@ function library:Load(opts)
 
     library.color = color
 
-    local gameConfigFolder = name .. "/Configs"
+    globals.configs = globals.name .. "/Configs"
 
-    if not isfolder(name) then 
-        makefolder(name)
+    if not isfolder(globals.name) then 
+        makefolder(globals.name)
     end
 
-    if not isfolder(gameConfigFolder) then
-        makefolder(gameConfigFolder) 
+    if not isfolder(globals.configs) then
+        makefolder(globals.configs) 
     end
 
     local topbar = utility.create("Frame", {
