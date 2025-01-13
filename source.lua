@@ -431,7 +431,6 @@ end
 
 function library:Load(opts)
     local options = utility.table(opts)
-    local name = options.name or "Epic UI Library"
     globals.name = options.name or "Epic UI Library"
     local sizeX = options.sizeX or 466
     local sizeY = options.sizeY or 350
@@ -469,7 +468,7 @@ function library:Load(opts)
         FontSize = Enum.FontSize.Size14,
         TextSize = 14,
         TextColor3 = library.color,
-        Text = name,
+        Text = globals.name,
         Font = Enum.Font.GothamSemibold,
         TextXAlignment = Enum.TextXAlignment.Left,
         Parent = topbar
