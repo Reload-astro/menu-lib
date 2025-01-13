@@ -3902,7 +3902,8 @@ function library:Load(opts)
     return windowTypes
 end
 
-function library:Watermark()
+function library:Watermark(opts)
+    local options = utility.table(opts)
     local watermark = utility.create("Frame", {
         Size = UDim2.new(0, 200, 0, 30),
         Position = UDim2.new(0, 10, 0, 10),
@@ -3929,7 +3930,7 @@ function library:Watermark()
         while true do
             local fps = math.floor(1 / wait()) -- Calculate FPS
             local ping = math.random(10, 100) -- Replace with actual ping logic if available
-            textLabel.Text = string.format("%s\nFPS: %d Ping: %d",globals.name, fps, ping)
+            textLabel.Text = string.format("%s\nFPS: %d Ping: %d", options.name, fps, ping)
             wait(1)
         end
     end)
