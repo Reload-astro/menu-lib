@@ -2,6 +2,7 @@ local inputService = game:GetService("UserInputService")
 local tweenService = game:GetService("TweenService")
 local runService = game:GetService("RunService")
 local coreGui = game:GetService("CoreGui")
+local stats = game:GetService("Stats")
 
 local utility = {}
 
@@ -422,8 +423,8 @@ function library:Watermark(opts)
 
     spawn(function()
         while true do
-            local fps = math.floor(1 / wait()) -- Calculate FPS
-            local ping = math.random(10, 100) -- Replace with actual ping logic if available
+            local fps = math.floor(1 / runService.RenderStepped:Wait()) -- Calculate FPS
+            local ping = tostring(stats:FindFirstChild("PerformanceStats").Ping:GetValue())
             textLabel.Text = string.format("%s\nFPS: %d Ping: %d",name, fps, ping)
             wait(1)
         end
