@@ -937,9 +937,7 @@ function library:Load(opts)
                                          coloredGradients, iconGradient))
                     end
 
-                    local textColor = toggled and
-                                          Color3.fromRGB(255, 255, 255) or
-                                          Color3.fromRGB(180, 180, 180)
+                    local textColor = toggled and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(180, 180, 180)
                     local gradientColor
                     if toggled then
                         gradientColor = ColorSequence.new {ColorSequenceKeypoint.new(0, library.color),ColorSequenceKeypoint.new(1,utility.change_color(library.color, -47))}
@@ -949,6 +947,7 @@ function library:Load(opts)
                     end
 
                     iconGradient.Color = gradientColor
+                    table.insert(library.themeobjects, iconGradient)
                     title.TextColor3 = textColor
 
                     if flag then
@@ -1520,6 +1519,7 @@ function library:Load(opts)
                     end
 
                     iconGradient.Color = gradientColor
+                    table.insert(library.themeobjects, iconGradient)
                     toggleTitle.TextColor3 = textColor
 
                     if toggleFlag then
@@ -2666,6 +2666,7 @@ function library:Load(opts)
                     end
 
                     iconGradient.Color = gradientColor
+                    table.insert(library.themeobjects, iconGradient)
                     title.TextColor3 = textColor
 
                     if toggleFlag then
@@ -3596,6 +3597,7 @@ function library:Load(opts)
                     end
 
                     iconGradient.Color = gradientColor
+                    table.insert(library.themeobjects, iconGradient)
                     title.TextColor3 = textColor
 
                     if toggleFlag then
@@ -3941,6 +3943,8 @@ function library:ChangeAccent(Color)
             theme.TextColor3 = Color
         elseif theme:IsA("ScrollingFrame") then
             theme.ScrollBarImageColor3 = library.color
+        elseif theme:IsA("UIGradient") then
+            theme.Color = ColorSequence.new {ColorSequenceKeypoint.new(0, library.color),ColorSequenceKeypoint.new(1,utility.change_color(library.color, -47))}
         end
     end
 end
