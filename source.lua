@@ -1761,7 +1761,7 @@ function library:Load(opts)
                     BackgroundTransparency = 1,
                     Position = UDim2.new(1, -16, 0, 1),
                     BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                    Image = "http://www.roblox.com/asset/?id=8747047318",
+                    Image = "http://www.roblox.com/asset/?id=99306299594190",
                     Parent = open
                 })
 
@@ -2944,7 +2944,7 @@ function library:Load(opts)
                         BorderColor3 = Color3.fromRGB(22, 22, 22),
                         Position = UDim2.new(0, 5, 0, 5),
                         BackgroundColor3 = Color3.fromRGB(255, 0, 4),
-                        Image = "http://www.roblox.com/asset/?id=8630797271",
+                        Image = "http://www.roblox.com/asset/?id=107266773054591",
                         Parent = picker
                     })
 
@@ -2968,7 +2968,7 @@ function library:Load(opts)
                     Position = UDim2.new(1, -19, 0, 5),
                     BackgroundColor3 = Color3.fromRGB(255, 0, 4),
                     ScaleType = Enum.ScaleType.Crop,
-                    Image = "http://www.roblox.com/asset/?id=8630799159",
+                    Image = "http://www.roblox.com/asset/?id=99306299594190",
                     Parent = picker
                 })
 
@@ -3469,7 +3469,7 @@ function library:Load(opts)
                         BorderColor3 = Color3.fromRGB(22, 22, 22),
                         Position = UDim2.new(0, 5, 0, 5),
                         BackgroundColor3 = Color3.fromRGB(255, 0, 4),
-                        Image = "http://www.roblox.com/asset/?id=8630797271",
+                        Image = "http://www.roblox.com/asset/?id=107266773054591",
                         Parent = picker
                     })
 
@@ -3493,7 +3493,7 @@ function library:Load(opts)
                     Position = UDim2.new(1, -19, 0, 5),
                     BackgroundColor3 = Color3.fromRGB(255, 0, 4),
                     ScaleType = Enum.ScaleType.Crop,
-                    Image = "http://www.roblox.com/asset/?id=8630799159",
+                    Image = "http://www.roblox.com/asset/?id=99306299594190",
                     Parent = picker
                 })
 
@@ -3937,6 +3937,10 @@ function library:Load(opts)
     end
 
     return windowTypes
+end
+
+function library:ChangeAccent(Color)
+    library.color = Color
 end
 
 return library
