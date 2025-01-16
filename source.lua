@@ -83,6 +83,7 @@ local library = utility.table {
     flags = {},
     notifications = {};
     toggled = true,
+    themeobjects = {};
     color = Color3.fromRGB(255, 0, 0),
     keybind = Enum.KeyCode.RightShift,
     dragSpeed = 0.1
@@ -418,6 +419,7 @@ function library:Watermark(opts)
         TextXAlignment = Enum.TextXAlignment.Left,
         Parent = watermark
     })
+    table.insert(library.themeobjects, textLabel)
 
     utility.drag(watermark, 0.1)
 
@@ -463,7 +465,7 @@ function library:Load(opts)
 
     utility.drag(topbar, dragSpeed)
 
-    utility.create("TextLabel", {
+    local title = utility.create("TextLabel", {
         ZIndex = 3,
         Size = UDim2.new(0, 0, 1, 0),
         BackgroundTransparency = 1,
@@ -476,6 +478,7 @@ function library:Load(opts)
         TextXAlignment = Enum.TextXAlignment.Left,
         Parent = topbar
     })
+    table.insert(library.themeobjects, title)
 
     local main = utility.create("Frame", {
         Size = UDim2.new(1, 0, 0, sizeY),
@@ -939,20 +942,9 @@ function library:Load(opts)
                                           Color3.fromRGB(180, 180, 180)
                     local gradientColor
                     if toggled then
-                        gradientColor = ColorSequence.new {
-                            ColorSequenceKeypoint.new(0, library.color),
-                            ColorSequenceKeypoint.new(1,
-                                                      utility.change_color(
-                                                          library.color, -47))
-                        }
+                        gradientColor = ColorSequence.new {ColorSequenceKeypoint.new(0, library.color),ColorSequenceKeypoint.new(1,utility.change_color(library.color, -47))}
                     else
-                        gradientColor = ColorSequence.new {
-                            ColorSequenceKeypoint.new(0, Color3.fromRGB(32,
-                                                                        32,
-                                                                        32)),
-                            ColorSequenceKeypoint.new(1, Color3.fromRGB(17,
-                                                                        17,
-                                                                        17))
+                        gradientColor = ColorSequence.new {ColorSequenceKeypoint.new(0, Color3.fromRGB(32,32,32)),ColorSequenceKeypoint.new(1, Color3.fromRGB(17,17,17))
                         }
                     end
 
@@ -3941,6 +3933,16 @@ end
 
 function library:ChangeAccent(Color)
     library.color = Color
+
+    for obj, theme in next, library.themeobjects do
+        if theme:IsA("Frame") or theme:IsA("TextButton") then
+            theme.BackgroundColor3 = Color
+        elseif theme:IsA("TextLabel") then
+            theme.TextColor3 = Color
+        elseif theme:IsA("ScrollingFrame") then
+            theme.ScrollBarImageColor3 = library.color
+        end
+    end
 end
 
 return library
