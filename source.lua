@@ -941,13 +941,13 @@ function library:Load(opts)
                     local gradientColor
                     if toggled then
                         gradientColor = ColorSequence.new {ColorSequenceKeypoint.new(0, library.color),ColorSequenceKeypoint.new(1,utility.change_color(library.color, -47))}
+                        table.insert(library.themeobjects, iconGradient)
                     else
-                        gradientColor = ColorSequence.new {ColorSequenceKeypoint.new(0, Color3.fromRGB(32,32,32)),ColorSequenceKeypoint.new(1, Color3.fromRGB(17,17,17))
-                        }
+                        gradientColor = ColorSequence.new {ColorSequenceKeypoint.new(0, Color3.fromRGB(32,32,32)),ColorSequenceKeypoint.new(1, Color3.fromRGB(17,17,17))}
+                        table.remove(library.themeobjects, table.find(library.themeobjects, iconGradient))
                     end
 
                     iconGradient.Color = gradientColor
-                    table.insert(library.themeobjects, iconGradient)
                     title.TextColor3 = textColor
 
                     if flag then
@@ -1203,6 +1203,7 @@ function library:Load(opts)
                         Parent = fill
                     })
 
+                table.insert(library.themeobjects, fillGradient)
                 table.insert(coloredGradients, fillGradient)
 
                 utility.create("UIGradient", {
@@ -1492,8 +1493,7 @@ function library:Load(opts)
                     if toggled then
                         table.insert(coloredGradients, iconGradient)
                     else
-                        table.remove(coloredGradients, table.find(
-                                         coloredGradients, iconGradient))
+                        table.remove(coloredGradients, table.find(coloredGradients, iconGradient))
                     end
 
                     local textColor = toggled and
@@ -1501,25 +1501,14 @@ function library:Load(opts)
                                           Color3.fromRGB(180, 180, 180)
                     local gradientColor
                     if toggled then
-                        gradientColor = ColorSequence.new {
-                            ColorSequenceKeypoint.new(0, library.color),
-                            ColorSequenceKeypoint.new(1,
-                                                      utility.change_color(
-                                                          library.color, -47))
-                        }
+                        gradientColor = ColorSequence.new {ColorSequenceKeypoint.new(0, library.color),ColorSequenceKeypoint.new(1,utility.change_color(library.color, -47))}
+                        table.insert(library.themeobjects, iconGradient)
                     else
-                        gradientColor = ColorSequence.new {
-                            ColorSequenceKeypoint.new(0, Color3.fromRGB(32,
-                                                                        32,
-                                                                        32)),
-                            ColorSequenceKeypoint.new(1, Color3.fromRGB(17,
-                                                                        17,
-                                                                        17))
-                        }
+                        gradientColor = ColorSequence.new {ColorSequenceKeypoint.new(0, Color3.fromRGB(32,32,32)),ColorSequenceKeypoint.new(1, Color3.fromRGB(17,17,17))}
+                        table.remove(library.themeobjects, table.find(library.themeobjects, iconGradient))
                     end
 
                     iconGradient.Color = gradientColor
-                    table.insert(library.themeobjects, iconGradient)
                     toggleTitle.TextColor3 = textColor
 
                     if toggleFlag then
@@ -2648,25 +2637,14 @@ function library:Load(opts)
                                           Color3.fromRGB(180, 180, 180)
                     local gradientColor
                     if toggled then
-                        gradientColor = ColorSequence.new {
-                            ColorSequenceKeypoint.new(0, library.color),
-                            ColorSequenceKeypoint.new(1,
-                                                      utility.change_color(
-                                                          library.color, -47))
-                        }
+                        gradientColor = ColorSequence.new {ColorSequenceKeypoint.new(0, library.color),ColorSequenceKeypoint.new(1,utility.change_color(library.color, -47))}
+                        table.insert(library.themeobjects, iconGradient)
                     else
-                        gradientColor = ColorSequence.new {
-                            ColorSequenceKeypoint.new(0, Color3.fromRGB(32,
-                                                                        32,
-                                                                        32)),
-                            ColorSequenceKeypoint.new(1, Color3.fromRGB(17,
-                                                                        17,
-                                                                        17))
-                        }
+                        gradientColor = ColorSequence.new {ColorSequenceKeypoint.new(0, Color3.fromRGB(32,32,32)),ColorSequenceKeypoint.new(1, Color3.fromRGB(17,17,17))}
+                        table.remove(library.themeobjects, table.find(library.themeobjects, iconGradient))
                     end
 
                     iconGradient.Color = gradientColor
-                    table.insert(library.themeobjects, iconGradient)
                     title.TextColor3 = textColor
 
                     if toggleFlag then
@@ -3579,25 +3557,14 @@ function library:Load(opts)
                                           Color3.fromRGB(180, 180, 180)
                     local gradientColor
                     if toggled then
-                        gradientColor = ColorSequence.new {
-                            ColorSequenceKeypoint.new(0, library.color),
-                            ColorSequenceKeypoint.new(1,
-                                                      utility.change_color(
-                                                          library.color, -47))
-                        }
+                        gradientColor = ColorSequence.new {ColorSequenceKeypoint.new(0, library.color),ColorSequenceKeypoint.new(1,utility.change_color(library.color, -47))}
+                        table.insert(library.themeobjects, iconGradient)
                     else
-                        gradientColor = ColorSequence.new {
-                            ColorSequenceKeypoint.new(0, Color3.fromRGB(32,
-                                                                        32,
-                                                                        32)),
-                            ColorSequenceKeypoint.new(1, Color3.fromRGB(17,
-                                                                        17,
-                                                                        17))
-                        }
+                        gradientColor = ColorSequence.new {ColorSequenceKeypoint.new(0, Color3.fromRGB(32,32,32)),ColorSequenceKeypoint.new(1, Color3.fromRGB(17,17,17))}
+                        table.remove(library.themeobjects, table.find(library.themeobjects, iconGradient))
                     end
 
                     iconGradient.Color = gradientColor
-                    table.insert(library.themeobjects, iconGradient)
                     title.TextColor3 = textColor
 
                     if toggleFlag then
