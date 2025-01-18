@@ -1736,7 +1736,7 @@ function library:Load(opts)
                 })
 
                 local icon = utility.create("ImageLabel", {
-                    ZIndex = 4,
+                    ZIndex = 11,
                     Size = UDim2.new(0, 14, 0, 14),
                     Rotation = 180,
                     BackgroundTransparency = 1,
@@ -2910,7 +2910,7 @@ function library:Load(opts)
 
                 local saturationFrame =
                     utility.create("ImageLabel", {
-                        ZIndex = 13,
+                        ZIndex = 99,
                         Size = UDim2.new(1, -29, 0, 130),
                         BorderColor3 = Color3.fromRGB(22, 22, 22),
                         Position = UDim2.new(0, 5, 0, 5),
@@ -2931,7 +2931,7 @@ function library:Load(opts)
                     })
 
                 local hueFrame = utility.create("ImageLabel", {
-                    ZIndex = 13,
+                    ZIndex = 99,
                     Size = UDim2.new(0, 14, 0, 130),
                     ClipsDescendants = true,
                     BorderColor3 = Color3.fromRGB(22, 22, 22),
@@ -3435,7 +3435,7 @@ function library:Load(opts)
 
                 local saturationFrame =
                     utility.create("ImageLabel", {
-                        ZIndex = 13,
+                        ZIndex = 99,
                         Size = UDim2.new(1, -29, 0, 130),
                         BorderColor3 = Color3.fromRGB(22, 22, 22),
                         Position = UDim2.new(0, 5, 0, 5),
@@ -3456,7 +3456,7 @@ function library:Load(opts)
                     })
 
                 local hueFrame = utility.create("ImageLabel", {
-                    ZIndex = 13,
+                    ZIndex = 99,
                     Size = UDim2.new(0, 14, 0, 130),
                     ClipsDescendants = true,
                     BorderColor3 = Color3.fromRGB(22, 22, 22),
