@@ -482,7 +482,7 @@ function library:Load(opts)
 
     local main = utility.create("Frame", {
         Size = UDim2.new(1, 0, 0, sizeY),
-        BorderColor3 = library.color,
+        BorderColor3 = Color3.fromRGB(20, 20, 20),
         BackgroundColor3 = Color3.fromRGB(32, 32, 32),
         Parent = topbar
     })
@@ -3912,8 +3912,6 @@ function library:ChangeAccent(Color)
             theme.ScrollBarImageColor3 = library.color
         elseif theme:IsA("UIGradient") then
             theme.Color = ColorSequence.new {ColorSequenceKeypoint.new(0, library.color),ColorSequenceKeypoint.new(1,utility.change_color(library.color, -47))}
-        elseif theme:IsA("UIStroke") then
-            theme.Color = library.color
         end
     end
 end
