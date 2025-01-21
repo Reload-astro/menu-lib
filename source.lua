@@ -463,6 +463,13 @@ function library:Load(opts)
         Parent = gui
     })
 
+    local glow = utility.create("UIStroke", {
+        Thickness = 6,
+        Color = Color3.fromRGB(0, 255, 0),
+        Transparency = 0.3,
+        Parent = topbar
+    })
+
     utility.drag(topbar, dragSpeed)
 
     local title = utility.create("TextLabel", {
@@ -1736,7 +1743,7 @@ function library:Load(opts)
                 })
 
                 local icon = utility.create("ImageLabel", {
-                    ZIndex = 11,
+                    ZIndex = 4,
                     Size = UDim2.new(0, 14, 0, 14),
                     Rotation = 180,
                     BackgroundTransparency = 1,
@@ -2910,7 +2917,7 @@ function library:Load(opts)
 
                 local saturationFrame =
                     utility.create("ImageLabel", {
-                        ZIndex = 99,
+                        ZIndex = 13,
                         Size = UDim2.new(1, -29, 0, 130),
                         BorderColor3 = Color3.fromRGB(22, 22, 22),
                         Position = UDim2.new(0, 5, 0, 5),
@@ -2931,7 +2938,7 @@ function library:Load(opts)
                     })
 
                 local hueFrame = utility.create("ImageLabel", {
-                    ZIndex = 99,
+                    ZIndex = 13,
                     Size = UDim2.new(0, 14, 0, 130),
                     ClipsDescendants = true,
                     BorderColor3 = Color3.fromRGB(22, 22, 22),
@@ -3435,7 +3442,7 @@ function library:Load(opts)
 
                 local saturationFrame =
                     utility.create("ImageLabel", {
-                        ZIndex = 99,
+                        ZIndex = 13,
                         Size = UDim2.new(1, -29, 0, 130),
                         BorderColor3 = Color3.fromRGB(22, 22, 22),
                         Position = UDim2.new(0, 5, 0, 5),
@@ -3456,7 +3463,7 @@ function library:Load(opts)
                     })
 
                 local hueFrame = utility.create("ImageLabel", {
-                    ZIndex = 99,
+                    ZIndex = 13,
                     Size = UDim2.new(0, 14, 0, 130),
                     ClipsDescendants = true,
                     BorderColor3 = Color3.fromRGB(22, 22, 22),
