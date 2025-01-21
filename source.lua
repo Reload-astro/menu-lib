@@ -465,10 +465,12 @@ function library:Load(opts)
 
     local glow = utility.create("UIStroke", {
         Thickness = 6,
-        Color = Color3.fromRGB(0, 255, 0),
+        Size = UDim2.new(0, sizeX, 0, 26),
+        Color = library.color,
         Transparency = 0.3,
         Parent = topbar
     })
+    table.insert(library.themeobjects, glow)
 
     utility.drag(topbar, dragSpeed)
 
@@ -3919,6 +3921,8 @@ function library:ChangeAccent(Color)
             theme.ScrollBarImageColor3 = library.color
         elseif theme:IsA("UIGradient") then
             theme.Color = ColorSequence.new {ColorSequenceKeypoint.new(0, library.color),ColorSequenceKeypoint.new(1,utility.change_color(library.color, -47))}
+        elseif theme:IsA("UIStroke") then
+            theme.Color = library.color
         end
     end
 end
