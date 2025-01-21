@@ -463,15 +463,6 @@ function library:Load(opts)
         Parent = gui
     })
 
-    local glow = utility.create("UIStroke", {
-        Thickness = 6,
-        Size = UDim2.new(0, sizeX, 0, 26),
-        Color = library.color,
-        Transparency = 0.3,
-        Parent = topbar
-    })
-    table.insert(library.themeobjects, glow)
-
     utility.drag(topbar, dragSpeed)
 
     local title = utility.create("TextLabel", {
@@ -495,6 +486,14 @@ function library:Load(opts)
         BackgroundColor3 = Color3.fromRGB(32, 32, 32),
         Parent = topbar
     })
+
+    local glow = utility.create("UIStroke", {
+        Thickness = 6,
+        Color = library.color,
+        Transparency = 0.3,
+        Parent = main
+    })
+    table.insert(library.themeobjects, glow)
 
     local tabs = utility.create("Frame", {
         ZIndex = 2,
