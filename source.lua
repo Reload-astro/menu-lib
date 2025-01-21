@@ -482,18 +482,10 @@ function library:Load(opts)
 
     local main = utility.create("Frame", {
         Size = UDim2.new(1, 0, 0, sizeY),
-        BorderColor3 = Color3.fromRGB(20, 20, 20),
+        BorderColor3 = library.color,
         BackgroundColor3 = Color3.fromRGB(32, 32, 32),
         Parent = topbar
     })
-
-    local glow = utility.create("UIStroke", {
-        Thickness = 6,
-        Color = library.color,
-        Transparency = 0.3,
-        Parent = main
-    })
-    table.insert(library.themeobjects, glow)
 
     local tabs = utility.create("Frame", {
         ZIndex = 2,
