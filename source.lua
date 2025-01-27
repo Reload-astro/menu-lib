@@ -2271,6 +2271,7 @@ function library:Load(opts)
                     Size = UDim2.new(1, 0, 0, 120),
                     BackgroundTransparency = 1,
                     BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                    ClipsDescendants = true,
                     Parent = sectionContent
                 })
             
@@ -2331,11 +2332,15 @@ function library:Load(opts)
                             for _, sibling in pairs(contentFrame:GetChildren()) do
                                 if sibling:IsA("TextButton") then
                                     sibling.TextColor3 = Color3.fromRGB(255, 255, 255) -- Reset others to white
-                                    table.remove(library.themeobjects, table.find(library.themeobjects, sibling))
                                 end
                             end
                             button.TextColor3 = library.color -- Highlight selected button
-                            table.insert(library.themeobjects, button)
+
+                            if selected then
+                                table.insert(library.themeobjects, button)
+                            else
+                                table.remove(library.themeobjects, table.find(library.themeobjects, button))
+                            end
 
                             if flag then
                                 library.flags[flag] = selected
