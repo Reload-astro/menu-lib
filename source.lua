@@ -2258,6 +2258,7 @@ function library:Load(opts)
                 local options = utility.table(opts)
                 local name = options.name or "ListBox"
                 local content = options.content or {}
+                local size = options.size or 170
                 local flag = options.flag
                 local callback = options.callback or function() end
             
@@ -2268,7 +2269,7 @@ function library:Load(opts)
                 end
             
                 local listBoxHolder = utility.create("Frame", {
-                    Size = UDim2.new(1, 0, 0, 170),
+                    Size = UDim2.new(1, 0, 0, size),
                     BackgroundTransparency = 1,
                     BackgroundColor3 = Color3.fromRGB(255, 255, 255),
                     ClipsDescendants = false,
