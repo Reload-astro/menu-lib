@@ -2289,6 +2289,7 @@ function library:Load(opts)
                 })
             
                 local contentFrame = utility.create("ScrollingFrame", {
+                    ClipsDescendants = false, -- Ensures all child elements render properly
                     Size = UDim2.new(1, 0, 1, -20),
                     Position = UDim2.new(0, 0, 0, 20),
                     BackgroundColor3 = Color3.fromRGB(32, 32, 32),
@@ -2316,6 +2317,12 @@ function library:Load(opts)
             
                     for _, item in ipairs(content) do
                         local label = utility.create("TextLabel", {
+                            ZIndex = 4,
+                            Size = UDim2.new(1, 0, 0, 24), -- Increased height for better visibility
+                            BackgroundTransparency = 1,
+                            TextScaled = true, -- Ensures text scales properly to fit
+                            ClipsDescendants = false, -- Ensures all text renders
+                            TextColor3 = Color3.fromRGB(200, 200, 200),
                             ZIndex = 4,
                             Size = UDim2.new(1, 0, 0, 20),
                             BackgroundTransparency = 1,
