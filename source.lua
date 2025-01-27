@@ -2316,6 +2316,7 @@ function library:Load(opts)
             
                     for _, item in ipairs(content) do
                         local button = utility.create("TextButton", {
+                            ZIndex = 4,
                             Size = UDim2.new(1, 0, 0, 20),
                             BackgroundColor3 = Color3.fromRGB(26, 26, 26),
                             TextColor3 = Color3.fromRGB(255, 255, 255),
