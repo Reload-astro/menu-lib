@@ -2271,7 +2271,7 @@ function library:Load(opts)
                     Size = UDim2.new(1, 0, 0, 120),
                     BackgroundTransparency = 1,
                     BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                    ClipsDescendants = true,
+                    ClipsDescendants = false,
                     Parent = sectionContent
                 })
             
