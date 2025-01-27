@@ -2331,10 +2331,12 @@ function library:Load(opts)
                             for _, sibling in pairs(contentFrame:GetChildren()) do
                                 if sibling:IsA("TextButton") then
                                     sibling.TextColor3 = Color3.fromRGB(255, 255, 255) -- Reset others to white
+                                    table.remove(library.themeobjects, table.find(library.themeobjects, sibling))
                                 end
                             end
                             button.TextColor3 = library.color -- Highlight selected button
-            
+                            table.insert(library.themeobjects, button)
+
                             if flag then
                                 library.flags[flag] = selected
                             end
@@ -2748,8 +2750,7 @@ function library:Load(opts)
                     if toggled then
                         table.insert(coloredGradients, iconGradient)
                     else
-                        table.remove(coloredGradients, table.find(
-                                         coloredGradients, iconGradient))
+                        table.remove(coloredGradients, table.find(coloredGradients, iconGradient))
                     end
 
                     local textColor = toggled and
