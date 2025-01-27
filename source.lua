@@ -2294,7 +2294,7 @@ function library:Load(opts)
                     Position = UDim2.new(0, 0, 0, 20),
                     BackgroundColor3 = Color3.fromRGB(32, 32, 32),
                     ScrollBarImageColor3 = Color3.fromRGB(255, 255, 255),
-                    ScrollBarThickness = 6,
+                    ScrollBarThickness = 2,
                     Parent = listBoxHolder
                 })
             
@@ -2318,10 +2318,10 @@ function library:Load(opts)
                         local button = utility.create("TextButton", {
                             ZIndex = 4,
                             Size = UDim2.new(1, 0, 0, 20),
-                            BackgroundTransparency = 1, -- Remove the button background
+                            BackgroundTransparency = 1,
                             TextColor3 = Color3.fromRGB(255, 255, 255),
                             Text = item,
-                            TextSize = 16, -- Make the text larger
+                            TextSize = 12,
                             Font = Enum.Font.Gotham,
                             Parent = contentFrame
                         })
