@@ -131,9 +131,6 @@ function utility.drag(obj, dragSpeed)
 end
 
 local wgui = Instance.new("ScreenGui")
-wgui.ResetOnSpawn = false
-wgui.Name = "Always On"
-wgui.Parent = coreGui
 
 inputService.InputBegan:Connect(function(input)
     if input.KeyCode == library.keybind then
@@ -142,6 +139,9 @@ inputService.InputBegan:Connect(function(input)
     end
 end)
 
+wgui.ResetOnSpawn = false
+wgui.Name = "Always On"
+wgui.Parent = coreGui
 gui.Parent = coreGui
 
 local flags = {
@@ -402,7 +402,7 @@ function library:Watermark(opts)
     local name = options.name or "Epic UI Library"
     local watermark = utility.create("Frame", {
         Size = UDim2.new(0, 200, 0, 30),
-        Position = UDim2.new(0, 10, 0, 10),
+        Position = UDim2.new(1, -210, 0, 10), -- Moved to the top right
         BackgroundColor3 = Color3.fromRGB(20, 20, 20),
         BorderSizePixel = 0,
         Parent = wgui
@@ -427,7 +427,7 @@ function library:Watermark(opts)
         while true do
             local fps = math.floor(1 / runService.RenderStepped:Wait()) -- Calculate FPS
             local ping = tostring(stats:FindFirstChild("PerformanceStats").Ping:GetValue())
-            textLabel.Text = string.format("%s\nFPS: %d Ping: %d",name, fps, ping)
+            textLabel.Text = string.format("%s\nFPS: %d Ping: %d", name, fps, ping)
             wait(1)
         end
     end)
@@ -2253,6 +2253,117 @@ function library:Load(opts)
 
                 return dropdownTypes
             end
+
+            function sectionTypes:ListBox(opts)
+                local options = utility.table(opts)
+                local name = options.name or "ListBox"
+                local content = options.content or {}
+                local flag = options.flag
+                local callback = options.callback or function() end
+            
+                local selected = nil
+            
+                if flag then
+                    library.flags[flag] = selected
+                end
+            
+                local listBoxHolder = utility.create("Frame", {
+                    Size = UDim2.new(1, 0, 0, 120),
+                    BackgroundTransparency = 1,
+                    BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                    Parent = sectionContent
+                })
+            
+                local title = utility.create("TextLabel", {
+                    ZIndex = 3,
+                    Size = UDim2.new(0, 0, 0, 16),
+                    BackgroundTransparency = 1,
+                    BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                    FontSize = Enum.FontSize.Size14,
+                    TextSize = 13,
+                    TextColor3 = Color3.fromRGB(255, 255, 255),
+                    Text = name,
+                    Font = Enum.Font.Gotham,
+                    TextXAlignment = Enum.TextXAlignment.Left,
+                    Parent = listBoxHolder
+                })
+            
+                local contentFrame = utility.create("ScrollingFrame", {
+                    Size = UDim2.new(1, 0, 1, -20),
+                    Position = UDim2.new(0, 0, 0, 20),
+                    BackgroundColor3 = Color3.fromRGB(32, 32, 32),
+                    BorderSizePixel = 0,
+                    ScrollBarImageColor3 = Color3.fromRGB(255, 255, 255),
+                    ScrollBarThickness = 6,
+                    Parent = listBoxHolder
+                })
+            
+                local contentList = utility.create("UIListLayout", {
+                    SortOrder = Enum.SortOrder.LayoutOrder,
+                    Parent = contentFrame
+                })
+            
+                contentList:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+                    contentFrame.CanvasSize = UDim2.new(0, 0, 0, contentList.AbsoluteContentSize.Y)
+                end)
+            
+                local function refreshContent()
+                    for _, child in pairs(contentFrame:GetChildren()) do
+                        if child:IsA("TextButton") then
+                            child:Destroy()
+                        end
+                    end
+            
+                    for _, item in ipairs(content) do
+                        local button = utility.create("TextButton", {
+                            Size = UDim2.new(1, 0, 0, 20),
+                            BackgroundColor3 = Color3.fromRGB(26, 26, 26),
+                            TextColor3 = Color3.fromRGB(255, 255, 255),
+                            Text = item,
+                            Font = Enum.Font.Gotham,
+                            Parent = contentFrame
+                        })
+            
+                        button.MouseButton1Click:Connect(function()
+                            selected = item
+                            if flag then
+                                library.flags[flag] = selected
+                            end
+                            callback(selected)
+                        end)
+                    end
+                end
+            
+                refreshContent()
+            
+                local listBoxTypes = utility.table()
+            
+                function listBoxTypes:Add(item)
+                    table.insert(content, item)
+                    refreshContent()
+                end
+            
+                function listBoxTypes:Remove(item)
+                    for i, v in ipairs(content) do
+                        if v == item then
+                            table.remove(content, i)
+                            break
+                        end
+                    end
+                    refreshContent()
+                end
+            
+                function listBoxTypes:Refresh(newContent)
+                    content = newContent
+                    refreshContent()
+                end
+            
+                function listBoxTypes:GetSelected()
+                    return selected
+                end
+            
+                return listBoxTypes
+            end            
 
             function sectionTypes:Keybind(opts)
                 local options = utility.table(opts)
