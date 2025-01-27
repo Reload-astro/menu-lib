@@ -2309,24 +2309,43 @@ function library:Load(opts)
             
                 local function refreshContent()
                     for _, child in pairs(contentFrame:GetChildren()) do
-                        if child:IsA("TextButton") then
+                        if child:IsA("TextLabel") then
                             child:Destroy()
                         end
                     end
             
                     for _, item in ipairs(content) do
-                        local button = utility.create("TextButton", {
+                        local label = utility.create("TextLabel", {
                             ZIndex = 4,
                             Size = UDim2.new(1, 0, 0, 20),
-                            BackgroundColor3 = Color3.fromRGB(26, 26, 26),
-                            TextColor3 = Color3.fromRGB(255, 255, 255),
+                            BackgroundTransparency = 1,
+                            TextColor3 = Color3.fromRGB(200, 200, 200),
                             Text = item,
                             Font = Enum.Font.Gotham,
+                            TextXAlignment = Enum.TextXAlignment.Left,
                             Parent = contentFrame
                         })
             
-                        button.MouseButton1Click:Connect(function()
+                        label.MouseEnter:Connect(function()
+                            label.TextColor3 = Color3.fromRGB(255, 255, 255)
+                        end)
+            
+                        label.MouseLeave:Connect(function()
+                            if selected ~= item then
+                                label.TextColor3 = Color3.fromRGB(200, 200, 200)
+                            end
+                        end)
+            
+                        label.MouseButton1Click:Connect(function()
+                            for _, sibling in pairs(contentFrame:GetChildren()) do
+                                if sibling:IsA("TextLabel") then
+                                    sibling.TextColor3 = Color3.fromRGB(200, 200, 200)
+                                end
+                            end
+            
                             selected = item
+                            label.TextColor3 = library.color -- Highlight selected
+            
                             if flag then
                                 library.flags[flag] = selected
                             end
