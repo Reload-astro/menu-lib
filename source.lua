@@ -2289,11 +2289,10 @@ function library:Load(opts)
                 })
             
                 local contentFrame = utility.create("ScrollingFrame", {
-                    ClipsDescendants = false, -- Ensures all child elements render properly
+                    BorderSizePixel = 1,
                     Size = UDim2.new(1, 0, 1, -20),
                     Position = UDim2.new(0, 0, 0, 20),
                     BackgroundColor3 = Color3.fromRGB(32, 32, 32),
-                    BorderSizePixel = 0,
                     ScrollBarImageColor3 = Color3.fromRGB(255, 255, 255),
                     ScrollBarThickness = 6,
                     Parent = listBoxHolder
@@ -2310,48 +2309,31 @@ function library:Load(opts)
             
                 local function refreshContent()
                     for _, child in pairs(contentFrame:GetChildren()) do
-                        if child:IsA("TextLabel") then
+                        if child:IsA("TextButton") then
                             child:Destroy()
                         end
                     end
             
                     for _, item in ipairs(content) do
-                        local label = utility.create("TextLabel", {
-                            ZIndex = 4,
-                            Size = UDim2.new(1, 0, 0, 24), -- Increased height for better visibility
-                            BackgroundTransparency = 1,
-                            TextScaled = true, -- Ensures text scales properly to fit
-                            ClipsDescendants = false, -- Ensures all text renders
-                            TextColor3 = Color3.fromRGB(200, 200, 200),
+                        local button = utility.create("TextButton", {
                             ZIndex = 4,
                             Size = UDim2.new(1, 0, 0, 20),
-                            BackgroundTransparency = 1,
-                            TextColor3 = Color3.fromRGB(200, 200, 200),
+                            BackgroundTransparency = 1, -- Remove the button background
+                            TextColor3 = Color3.fromRGB(255, 255, 255),
                             Text = item,
+                            TextSize = 16, -- Make the text larger
                             Font = Enum.Font.Gotham,
-                            TextXAlignment = Enum.TextXAlignment.Left,
                             Parent = contentFrame
                         })
             
-                        label.MouseEnter:Connect(function()
-                            label.TextColor3 = Color3.fromRGB(255, 255, 255)
-                        end)
-            
-                        label.MouseLeave:Connect(function()
-                            if selected ~= item then
-                                label.TextColor3 = Color3.fromRGB(200, 200, 200)
-                            end
-                        end)
-            
-                        label.MouseButton1Click:Connect(function()
+                        button.MouseButton1Click:Connect(function()
+                            selected = item
                             for _, sibling in pairs(contentFrame:GetChildren()) do
-                                if sibling:IsA("TextLabel") then
-                                    sibling.TextColor3 = Color3.fromRGB(200, 200, 200)
+                                if sibling:IsA("TextButton") then
+                                    sibling.TextColor3 = Color3.fromRGB(255, 255, 255) -- Reset others to white
                                 end
                             end
-            
-                            selected = item
-                            label.TextColor3 = library.color -- Highlight selected
+                            button.TextColor3 = library.color -- Highlight selected button
             
                             if flag then
                                 library.flags[flag] = selected
