@@ -2268,7 +2268,7 @@ function library:Load(opts)
                 end
             
                 local listBoxHolder = utility.create("Frame", {
-                    Size = UDim2.new(1, 0, 0, 160),
+                    Size = UDim2.new(1, 0, 0, 170),
                     BackgroundTransparency = 1,
                     BackgroundColor3 = Color3.fromRGB(255, 255, 255),
                     ClipsDescendants = false,
